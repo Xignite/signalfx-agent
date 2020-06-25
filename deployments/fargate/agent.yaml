@@ -1,5 +1,3 @@
-https://github.com/signalfx/signalfx-agent/blob/master/deployments/fargate/agent.yaml
-
 # This agent config file is designed for use within an ECS task.  The agent
 # should be as a Fargate service within an ECS task.
 signalFxAccessToken: {"#from": "env:ACCESS_TOKEN"}
