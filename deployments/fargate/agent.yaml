@@ -1,3 +1,5 @@
+https://github.com/signalfx/signalfx-agent/blob/master/deployments/fargate/agent.yaml
+
 # This agent config file is designed for use within an ECS task.  The agent
 # should be as a Fargate service within an ECS task.
 signalFxAccessToken: {"#from": "env:ACCESS_TOKEN"}
@@ -17,6 +19,8 @@ observers:
     labelsToDimensions: &labelMap
       com.amazonaws.ecs.container-name: container_spec_name
 
+traceEndpointUrl: "https://ingest.us1.signalfx.com/v2/trace"
+
 monitors:
   - type: cpu
   - type: disk-io
@@ -25,6 +29,8 @@ monitors:
   - type: memory
   - type: collectd/protocols
   - type: vmem
+  - type: signalfx-forwarder
+    listenAddress: 0.0.0.0:9080
 
   - type: ecs-metadata
     excludedImages:
@@ -45,3 +51,6 @@ metricsToExclude:
 # This allows any config above to be completely overridden.  CONFIG_OVERRIDE
 # must be given as a YAML/JSON object.
 _: {"#from": "env:CONFIG_OVERRIDE", optional: true, flatten: true}
+
+writer:
+  traceExportFormat: sapm
